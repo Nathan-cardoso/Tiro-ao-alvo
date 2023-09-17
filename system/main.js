@@ -78,6 +78,10 @@ camera.position.y = 1.4
 camera.position.z = -0.65
 camera.position.x = -0.36
 
+const limiteLateral = 0.5;
+const limiteMaxVertical = 0.3;
+const limiteMinVertical = 0;
+
 function animate() {
 	requestAnimationFrame( animate );
 
@@ -90,20 +94,34 @@ function animate() {
     console.log(anguloCanhaoLateral)
     console.log(anguloCanhaoVertical)
 
-    //Ajustando a mira do canhão lateralmente
-    modelCanhao.position.x += 0 * -Math.sin(anguloCanhaoLateral)
-    modelCanhao.position.z += 0 * -Math.cos(anguloCanhaoLateral)
-    modelCanhao.rotation.y += velocidadeCanhaoLateral
+    if (anguloCanhaoLateral > limiteLateral) {
+        anguloCanhaoLateral = limiteLateral
+    } else if (anguloCanhaoLateral < -limiteLateral) {
+        anguloCanhaoLateral = -limiteLateral
+    }
 
-    //Ajustando a mira do canhão verticalmente
-    modelCanhao.position.y += 0 * -Math.sin(anguloCanhaoVertical)
-    modelCanhao.position.z += 0 * -Math.cos(anguloCanhaoVertical)
-    modelCanhao.rotation.x += velocidadeCanhaoVertical
+    if (anguloCanhaoVertical > limiteMaxVertical) {
+        anguloCanhaoVertical = limiteMaxVertical
+    } else if (anguloCanhaoVertical < limiteMinVertical) {
+        anguloCanhaoVertical = limiteMinVertical
+    }
+
+    /*Ajustando a mira do canhão lateralmente
+    Cálculo dos ângulos
+    Ângulo x: Math.sin(anguloCanhaoLateral)
+    Ângulo z: Math.cos(anguloCanhaoLateral)
+    */
+    modelCanhao.rotation.y = anguloCanhaoLateral
+
+    /*Ajustando a mira do canhão verticalmente
+    Cálculo dos ângulos
+    Ângulo y: Math.sin(anguloCanhaoVertical)
+    Ângulo z: Math.cos(anguloCanhaoVertical)
+    */
+    modelCanhao.rotation.x = anguloCanhaoVertical
 
     //Ajustando base do canhão lateralmente
-    modelBaseCanhao.position.x += 0 * -Math.sin(anguloCanhaoLateral)
-    modelBaseCanhao.position.z += 0 * -Math.cos(anguloCanhaoLateral)
-    modelBaseCanhao.rotation.y += velocidadeCanhaoLateral
+    modelBaseCanhao.rotation.y = anguloCanhaoLateral
 
     //Comandos para ser possível se mover pelo mapa
     camera.position.z += velocidade * -Math.cos(angulo)
