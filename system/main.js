@@ -13,20 +13,18 @@ document.body.appendChild( renderer.domElement )
   animate();
 
   function sceneInit(){
-
-    const worldWidth = 128, worldDepth = 128;
     
     camera.position.y = 200;
     
       scene.background = new THREE.Color(0xaaccff);
       scene.fog = new THREE.FogExp2(0xaaccff, 0.0007);
-    
-      const geometry = new THREE.PlaneGeometry(20000, 2000, worldWidth - 1, worldDepth - 1);
-      geometry.rotateX(-Math.PI / 2);
+  
+      const geometry = new THREE.PlaneGeometry(20000, 2000);
+      geometry.rotateX(-Math.PI/2);
     
       const texture = new THREE.TextureLoader().load('textures/water.jpg');
       texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-      texture.repeat.set(5, 5);
+      texture.repeat.set(3, 3);
     
     
       const material = new THREE.MeshBasicMaterial({ color: 0x0044ff, map: texture });
