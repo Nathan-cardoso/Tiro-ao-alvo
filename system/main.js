@@ -7,6 +7,9 @@ let anguloCanhaoLateral = 0;
 let anguloCanhaoVertical = 0;
 let velocidadeAngular = 0;
 let velocidadeVertical = 0;
+let velocidadeBalaX = 0;
+let velocidadeBalaY = 0;
+let velocidadeBalaZ = 0;
 let modoCanhao = 1;
 let modelBaseCanhao = 0;
 let modelCanhao = 0;
@@ -20,6 +23,15 @@ const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.inner
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
+
+
+const geometry = new THREE.SphereGeometry( 0.03, 10, 10 );
+const material = new THREE.MeshStandardMaterial ( { color: 0x00ffff} );
+const bala = new THREE.Mesh( geometry, material );
+scene.add( bala );
+bala.position.y = 1.24
+bala.position.z = -0.77
+bala.position.x = -0.35
 
 const light = new THREE.AmbientLight( 0xffffff ); 
 scene.add(light)
@@ -43,10 +55,10 @@ console.log(loader);
 loader.load( 'models/base-canhao.glb', function ( gltf ) {
 
     modelBaseCanhao = gltf.scene;
-    const scale = 0.0015;
+    const scale = 0.0017;
     modelBaseCanhao.scale.set(scale, scale, scale);
     modelBaseCanhao.position.y = 1.06
-    modelBaseCanhao.position.z = -0.77
+    modelBaseCanhao.position.z = -0.75
     modelBaseCanhao.position.x = -0.35
 	scene.add( modelBaseCanhao );
 
@@ -60,10 +72,10 @@ console.log(loader);
 loader.load( 'models/canhao.glb', function ( gltf ) {
 
     modelCanhao = gltf.scene;
-    const scale = 0.0015;
+    const scale = 0.0017;
     modelCanhao.scale.set(scale, scale, scale);
     modelCanhao.position.y = 1.06
-    modelCanhao.position.z = -0.77
+    modelCanhao.position.z = -0.75
     modelCanhao.position.x = -0.35
 	scene.add( modelCanhao );
 
@@ -90,9 +102,6 @@ function animate() {
     anguloCanhaoLateral += velocidadeCanhaoLateral
     anguloCanhaoVertical += velocidadeCanhaoVertical
     camera.rotation.y = angulo
-
-    console.log(anguloCanhaoLateral)
-    console.log(anguloCanhaoVertical)
 
     if (anguloCanhaoLateral > limiteLateral) {
         anguloCanhaoLateral = limiteLateral
@@ -128,20 +137,42 @@ function animate() {
     camera.position.x += velocidade * -Math.sin(angulo)
     camera.position.y += velocidadeVertical
 
+    velocidadeBalaY += -0.0005
+
+    bala.position.x += velocidadeBalaX
+    bala.position.y += velocidadeBalaY
+    bala.position.z += velocidadeBalaZ
+
 	renderer.render( scene, camera );
 }
 
 document.onkeydown = function(e) {
 
-    console.log(e)
+    if (e.key == 'c') {
+        modoCanhao = -modoCanhao 
+    }
+
+    if (e.key == ' ') {
+        bala.position.y = 1.24
+        bala.position.z = -0.77
+        bala.position.x = -0.35
+        velocidadeBalaX = 0.1 * -Math.sin(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
+        velocidadeBalaY = 0.1 * (Math.sin(anguloCanhaoVertical) + 0.2);
+        velocidadeBalaZ = 0.1 * -Math.cos(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
+        console.log(velocidadeBalaX)
+        console.log(velocidadeBalaY)
+        console.log(velocidadeBalaZ)
+        console.log(anguloCanhaoLateral)
+        console.log(anguloCanhaoVertical)
+    }
 
     if (modoCanhao == -1) {
         if(e.key == "ArrowUp") {    
-            velocidade = 0.1
+            velocidade = 0.05
         }
     
         if(e.key == "ArrowDown") {
-            velocidade = -0.1
+            velocidade = -0.05
         }
     
         if(e.key == "ArrowLeft") {
@@ -175,14 +206,6 @@ document.onkeydown = function(e) {
         if(e.key == "ArrowRight") {
             velocidadeCanhaoLateral = -0.01;
         }
-
-        camera.position.y = 1.4
-        camera.position.z = -0.65
-        camera.position.x = -0.36
-    }
-
-    if (e.key == ' ') {
-        modoCanhao = -modoCanhao
     }
 
 }
