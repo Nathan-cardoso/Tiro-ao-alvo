@@ -1,6 +1,44 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
+class modelo {
+    constructor(nome, scale, positionX, positionY, positionZ) {
+        this.nome = nome;
+        this.scale = scale;
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.positionZ = positionZ;
+        this.model = null;
+    }
+
+    carregar() {
+        const self = this;
+        const scale = this.scale;
+        const positionX = this.positionX;
+        const positionY = this.positionY;
+        const positionZ = this.positionZ;
+        
+        loader.load('models/' + this.nome + '.glb', function (gltf) {
+            self.model = gltf.scene; 
+            self.model.scale.set(scale, scale, scale);
+            self.model.position.set(positionX, positionY, positionZ);
+            scene.add(self.model);
+        }, undefined, function (error) {
+            console.error(error);
+        });
+    }
+
+    rotacionar(rotacaoX, rotacaoY, rotacaoZ) {
+        if (this.model) { 
+            this.model.rotation.x = rotacaoX;
+            this.model.rotation.y = rotacaoY;
+            this.model.rotation.z = rotacaoZ;
+        }
+    }
+}
+
+
+const loader = new GLTFLoader();
 let velocidade = 0;
 let angulo = 0;
 let anguloCanhaoLateral = 0;
@@ -11,9 +49,6 @@ let velocidadeBalaX = 0;
 let velocidadeBalaY = 0;
 let velocidadeBalaZ = 0;
 let modoCanhao = 1;
-let modelBaseCanhao = 0;
-let modelCanhao = 0;
-let modelNavio = 0;
 let velocidadeCanhaoLateral = 0
 let velocidadeCanhaoVertical = 0
 
@@ -36,55 +71,14 @@ bala.position.x = -0.35
 const light = new THREE.AmbientLight( 0xffffff ); 
 scene.add(light)
 
-const loader = new GLTFLoader();
-
-loader.load( 'models/going_merry.glb', function ( gltf ) {
-
-    modelNavio = gltf.scene;
-    const scale = 1.2;
-    modelNavio.scale.set(scale, scale, scale);
-	scene.add( modelNavio );
-
-}, undefined, function ( error ) {
-
-	console.error( error );
-
-} );
-console.log(loader);
-
-loader.load( 'models/base-canhao.glb', function ( gltf ) {
-
-    modelBaseCanhao = gltf.scene;
-    const scale = 0.0017;
-    modelBaseCanhao.scale.set(scale, scale, scale);
-    modelBaseCanhao.position.y = 1.06
-    modelBaseCanhao.position.z = -0.75
-    modelBaseCanhao.position.x = -0.35
-	scene.add( modelBaseCanhao );
-
-}, undefined, function ( error ) {
-
-	console.error( error );
-
-} );
-console.log(loader);
-
-loader.load( 'models/canhao.glb', function ( gltf ) {
-
-    modelCanhao = gltf.scene;
-    const scale = 0.0017;
-    modelCanhao.scale.set(scale, scale, scale);
-    modelCanhao.position.y = 1.06
-    modelCanhao.position.z = -0.75
-    modelCanhao.position.x = -0.35
-	scene.add( modelCanhao );
-
-}, undefined, function ( error ) {
-
-	console.error( error );
-
-} );
-console.log(loader);
+const marry = new modelo('going_merry', 1.2, 0, 0, 0)
+marry.carregar()
+const canhao = new modelo('canhao', 0.0017, -0.35, 1.06, -0.75)
+canhao.carregar()
+const baseCanhao = new modelo('base-canhao', 0.0017, -0.35, 1.06, -0.75)
+baseCanhao.carregar()
+const goku = new modelo('goku', 1.2, 0, 0, 0)
+goku.carregar()
 
 camera.position.y = 1.4
 camera.position.z = -0.65
@@ -120,28 +114,28 @@ function animate() {
     Ângulo x: Math.sin(anguloCanhaoLateral)
     Ângulo z: Math.cos(anguloCanhaoLateral)
     */
-    modelCanhao.rotation.y = anguloCanhaoLateral
+    canhao.rotacionar(anguloCanhaoVertical, anguloCanhaoLateral, 0)
 
     /*Ajustando a mira do canhão verticalmente
     Cálculo dos ângulos
     Ângulo y: Math.sin(anguloCanhaoVertical)
     Ângulo z: Math.cos(anguloCanhaoVertical)
     */
-    modelCanhao.rotation.x = anguloCanhaoVertical
 
     //Ajustando base do canhão lateralmente
-    modelBaseCanhao.rotation.y = anguloCanhaoLateral
+    //modelBaseCanhao.rotation.y = anguloCanhaoLateral
+    baseCanhao.rotacionar(0, anguloCanhaoLateral, 0)
 
     //Comandos para ser possível se mover pelo mapa
     camera.position.z += velocidade * -Math.cos(angulo)
     camera.position.x += velocidade * -Math.sin(angulo)
     camera.position.y += velocidadeVertical
 
-    velocidadeBalaY += -0.0005
-
     bala.position.x += velocidadeBalaX
     bala.position.y += velocidadeBalaY
     bala.position.z += velocidadeBalaZ
+
+    velocidadeBalaY += -0.0005
 
 	renderer.render( scene, camera );
 }
