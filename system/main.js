@@ -1,14 +1,15 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-class modelo {
-    constructor(nome, scale, positionX, positionY, positionZ) {
-        this.nome = nome;
+class model3D {
+    constructor(name, scale, positionX, positionY, positionZ) {
+        this.name = name;
         this.scale = scale;
         this.positionX = positionX;
         this.positionY = positionY;
         this.positionZ = positionZ;
         this.model = null;
+        this.caixa = null;
     }
 
     carregar() {
@@ -18,7 +19,7 @@ class modelo {
         const positionY = this.positionY;
         const positionZ = this.positionZ;
         
-        loader.load('models/' + this.nome + '.glb', function (gltf) {
+        loader.load('models/' + this.name + '.glb', function (gltf) {
             self.model = gltf.scene; 
             self.model.scale.set(scale, scale, scale);
             self.model.position.set(positionX, positionY, positionZ);
@@ -35,8 +36,49 @@ class modelo {
             this.model.rotation.z = rotacaoZ;
         }
     }
-}
 
+    caixaDelimitadora(largura, altura, profundidade, deslocarX, deslocarY, deslocarZ) {
+        if (this.model) {
+            const deslocamento = new THREE.Vector3(largura * deslocarX , altura * deslocarY, profundidade * deslocarZ);
+            const caixaGeometry = new THREE.BoxGeometry(largura, altura, profundidade);
+
+            caixaGeometry.translate(deslocamento.x, deslocamento.y, deslocamento.z);
+    
+            const caixaMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe : true});
+            const caixaColisao = new THREE.Mesh(caixaGeometry, caixaMaterial);
+    
+            // Posicione a caixa de colisão onde o modelo 3D estiver posicionado
+            caixaColisao.position.copy(this.model.position);
+            scene.add(caixaColisao);
+            this.caixa = caixaColisao;
+
+            if (this.foiAtingido(largura, altura, profundidade)) {
+                
+            }
+        }
+    }
+    
+    foiAtingido(largura, altura, profundidade){
+        if (this.caixa && bala) {
+            
+            let raio = bala.geometry.parameters.radius
+
+            if ((bala.position.x + raio) < (this.caixa.position.x - largura/2) || (bala.position.x - raio) > (this.caixa.position.x + largura/2)){
+                return false
+            } else if ((bala.position.y + raio) < (this.caixa.position.y) || (bala.position.y - raio) > (this.caixa.position.y + altura)) {
+                return false
+            }else if ((bala.position.z + raio) < (this.caixa.position.z - profundidade/2) || (bala.position.z - raio) > (this.caixa.position.z + profundidade/2)) {
+                return false
+            } else{
+                    
+                console.log("colisão")
+                return true
+            }
+
+        }
+    }
+
+}
 
 const loader = new GLTFLoader();
 let velocidade = 0;
@@ -61,7 +103,7 @@ document.body.appendChild( renderer.domElement );
 
 
 const geometry = new THREE.SphereGeometry( 0.03, 10, 10 );
-const material = new THREE.MeshStandardMaterial ( { color: 0x00ffff} );
+const material = new THREE.MeshStandardMaterial ( { color: 0xffffff} );
 const bala = new THREE.Mesh( geometry, material );
 scene.add( bala );
 bala.position.y = 1.24
@@ -71,21 +113,29 @@ bala.position.x = -0.35
 const light = new THREE.AmbientLight( 0xffffff ); 
 scene.add(light)
 
-const marry = new modelo('going_merry', 1.2, 0, 0, 0)
+const marry = new model3D('going_merry', 1.2, 0, 0, 0)
 marry.carregar()
-const canhao = new modelo('canhao', 0.0017, -0.35, 1.06, -0.75)
+const canhao = new model3D('canhao', 0.0017, -0.35, 1.06, -0.75)
 canhao.carregar()
-const baseCanhao = new modelo('base-canhao', 0.0017, -0.35, 1.06, -0.75)
+const baseCanhao = new model3D('base-canhao', 0.0017, -0.35, 1.06, -0.75)
 baseCanhao.carregar()
-const goku = new modelo('goku', 1.2, 0, 0, 0)
-goku.carregar()
 
-camera.position.y = 1.4
-camera.position.z = -0.65
+//const goku = new model3D('goku', 1.2, -0.3 , 1, -3)
+//goku.carregar()
+//const naruto = new model3D('naruto', 0.1, -0.3 , 1, -3)
+//naruto.carregar()
+//const luffy = new model3D('luffy', 4, -0.3 , 1.5, -3)
+//luffy.carregar()
+//const usopp = new model3D('usopp', 0.2, -0.3 , 1.5, -3)
+//usopp.carregar()
+
+
+camera.position.y = 1.6
+camera.position.z = -0.55
 camera.position.x = -0.36
 
-const limiteLateral = 0.5;
-const limiteMaxVertical = 0.3;
+const limiteLateral = 0.45;
+const limiteMaxVertical = 0.2;
 const limiteMinVertical = 0;
 
 function animate() {
@@ -136,6 +186,12 @@ function animate() {
     bala.position.z += velocidadeBalaZ
 
     velocidadeBalaY += -0.0005
+    //goku.caixaDelimitadora(0.3, 0.7, 0.2, -0.03, 0.5, 0)
+    //goku.rotacionar(0, -3, 0)
+    //naruto.caixaDelimitadora(0.3, 0.67, 0.13, -0.03, 0.5, 0)
+    //luffy.caixaDelimitadora(0.4, 0.45, 0.33, 0, 0, 0)
+    //luffy.rotacionar(0, 1.7, 0)
+    //usopp.caixaDelimitadora(0.29, 0.43, 0.38, 0.09, 0.02, 0)
 
 	renderer.render( scene, camera );
 }
@@ -153,11 +209,6 @@ document.onkeydown = function(e) {
         velocidadeBalaX = 0.1 * -Math.sin(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
         velocidadeBalaY = 0.1 * (Math.sin(anguloCanhaoVertical) + 0.2);
         velocidadeBalaZ = 0.1 * -Math.cos(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
-        console.log(velocidadeBalaX)
-        console.log(velocidadeBalaY)
-        console.log(velocidadeBalaZ)
-        console.log(anguloCanhaoLateral)
-        console.log(anguloCanhaoVertical)
     }
 
     if (modoCanhao == -1) {
