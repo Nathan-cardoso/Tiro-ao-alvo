@@ -16,6 +16,7 @@ class model3D {
         this.caixa = null;
         this.light = light;
         this.spotLight = null
+        this.lightHelper
     }
 
     carregar() {
@@ -45,9 +46,20 @@ class model3D {
         }
     }
 
+    posicionar(positionX, positionY, positionZ){
+        if (this.model) { 
+            this.model.position.x = positionX;
+            this.model.position.y = positionY;
+            this.model.position.z = positionZ;
+            this.spotLight.position.set( positionX, positionY + 2, positionZ);
+            this.spotLight.target.position.set(positionX, positionY, positionZ);
+            
+            this.lightHelper = new THREE.SpotLightHelper( this.spotLight );
+        }
+    }
+
     holofote(positionX, positionY, positionZ){
         if (this.light) {
-            let lightHelper
             this.spotLight = new THREE.SpotLight( 0xffffff, 1000 );
             this.spotLight.position.set( positionX, positionY + 2, positionZ);
             this.spotLight.angle = Math.PI / 16;
@@ -64,7 +76,7 @@ class model3D {
             this.spotLight.shadow.focus = 1;
             scene.add( this.spotLight );
 
-            lightHelper = new THREE.SpotLightHelper( this.spotLight );
+            this.lightHelper = new THREE.SpotLightHelper( this.spotLight );
         }
     }
 
@@ -153,7 +165,7 @@ canhao.carregar()
 const baseCanhao = new model3D('base-canhao', 0.0017, -0.35, 1.06, -0.75, false)
 baseCanhao.carregar()
 
-const goku = new model3D('goku', 1.2, getRandomArbitrary(-1, 0.5) , getRandomArbitrary(1, 2), getRandomArbitrary(-2, -6), true)
+const goku = new model3D('goku', 1.2, getRandomArbitrary(-1, 0.5) , getRandomArbitrary(1, 2), getRandomArbitrary(-3, -7), true)
 goku.carregar()
 //const naruto = new model3D('naruto', 0.1, -0.3 , 1, -3)
 //naruto.carregar()
@@ -242,6 +254,12 @@ document.onkeydown = function(e) {
         velocidadeBalaX = 0.1 * -Math.sin(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
         velocidadeBalaY = 0.1 * (Math.sin(anguloCanhaoVertical) + 0.2);
         velocidadeBalaZ = 0.1 * -Math.cos(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
+    }
+
+    if (e.key == 'r') {
+        goku.posicionar(getRandomArbitrary(-1, 0.5) , getRandomArbitrary(1, 2), getRandomArbitrary(-3, -7))
+        goku.model.visible = true
+        goku.spotLight.visible = true
     }
 
     if (modoCanhao == -1) {
