@@ -3,7 +3,14 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
-  }
+}
+
+function gerar_cor_hexadecimal()
+{
+return '#' + parseInt((Math.random() * 0xFFFFFF))
+.toString(16)
+.padStart(6, '0');
+}
 
 class model3D {
     constructor(name, scale, positionX, positionY, positionZ, light) {
@@ -60,12 +67,12 @@ class model3D {
 
     holofote(positionX, positionY, positionZ){
         if (this.light) {
-            this.spotLight = new THREE.SpotLight( 0xffffff, 1000 );
+            this.spotLight = new THREE.SpotLight( gerar_cor_hexadecimal(), 1000 );
             this.spotLight.position.set( positionX, positionY + 2, positionZ);
             this.spotLight.angle = Math.PI / 16;
             this.spotLight.penumbra = 1;
             this.spotLight.decay = 2;
-            this.spotLight.distance = 2;
+            this.spotLight.distance = 0;
             this.spotLight.target.position.set(positionX, positionY, positionZ);
 
             this.spotLight.castShadow = true;
@@ -82,19 +89,23 @@ class model3D {
 
     caixaDelimitadora(largura, altura, profundidade, deslocarX, deslocarY, deslocarZ) {
         if (this.model) {
-            const deslocamento = new THREE.Vector3(largura * deslocarX , altura * deslocarY, profundidade * deslocarZ);
-            const caixaGeometry = new THREE.BoxGeometry(largura, altura, profundidade);
+            if (!this.caixa) {
+                const deslocamento = new THREE.Vector3(largura * deslocarX , altura * deslocarY, profundidade * deslocarZ);
+                const caixaGeometry = new THREE.BoxGeometry(largura, altura, profundidade);
 
-            caixaGeometry.translate(deslocamento.x, deslocamento.y, deslocamento.z);
-    
-            const caixaMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe : false});
-            const caixaColisao = new THREE.Mesh(caixaGeometry, caixaMaterial);
-    
-            // Posicione a caixa de colisão onde o modelo 3D estiver posicionado
-            caixaColisao.position.copy(this.model.position);
-            scene.add(caixaColisao);
-            this.caixa = caixaColisao;
-            this.caixa.visible = false
+                caixaGeometry.translate(deslocamento.x, deslocamento.y, deslocamento.z);
+        
+                const caixaMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe : true});
+                const caixaColisao = new THREE.Mesh(caixaGeometry, caixaMaterial);
+        
+                // Posicione a caixa de colisão onde o modelo 3D estiver posicionado
+                caixaColisao.position.copy(this.model.position);
+                scene.add(caixaColisao);
+                this.caixa = caixaColisao;
+                this.caixa.visible = false
+            } else{
+                this.caixa.position.copy(this.model.position)
+            }
 
             if (this.foiAtingido(largura, altura, profundidade)) {
                 this.spotLight.visible = false
@@ -165,14 +176,16 @@ canhao.carregar()
 const baseCanhao = new model3D('base-canhao', 0.0017, -0.35, 1.06, -0.75, false)
 baseCanhao.carregar()
 
-const goku = new model3D('goku', 1.2, getRandomArbitrary(-1, 0.5) , getRandomArbitrary(1, 2), getRandomArbitrary(-3, -7), true)
+const goku = new model3D('goku', 1.2, getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7), true)
 goku.carregar()
-//const naruto = new model3D('naruto', 0.1, -0.3 , 1, -3)
-//naruto.carregar()
-//const luffy = new model3D('luffy', 4, -0.3 , 1.5, -3)
-//luffy.carregar()
-//const usopp = new model3D('usopp', 0.2, -0.3 , 1.5, -3)
-//usopp.carregar()
+const naruto = new model3D('naruto', 0.1, getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7), true)
+naruto.carregar()
+const sasuke = new model3D('sasuke', 0.3, getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7), true)
+sasuke.carregar()
+const usopp = new model3D('usopp', 0.2, getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7), true)
+usopp.carregar()
+const zoro = new model3D('zoro', 0.005, getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7), true)
+zoro.carregar()
 
 
 camera.position.y = 1.6
@@ -233,10 +246,12 @@ function animate() {
     velocidadeBalaY += -0.0005
     goku.caixaDelimitadora(0.3, 0.7, 0.2, -0.03, 0.5, 0)
     goku.rotacionar(0, -3, 0)
-    //naruto.caixaDelimitadora(0.3, 0.67, 0.13, -0.03, 0.5, 0)
-    //luffy.caixaDelimitadora(0.4, 0.45, 0.33, 0, 0, 0)
-    //luffy.rotacionar(0, 1.7, 0)
-    //usopp.caixaDelimitadora(0.29, 0.43, 0.38, 0.09, 0.02, 0)
+    naruto.caixaDelimitadora(0.3, 0.67, 0.13, -0.03, 0.5, 0)
+    sasuke.caixaDelimitadora(0.24, 0.5, 0.33, 0.1, 0.45, 0.2)
+    sasuke.rotacionar(0, -2.5, 0)
+    usopp.caixaDelimitadora(0.29, 0.4, 0.38, 0.09, 0.02, 0)
+    zoro.caixaDelimitadora(0.26, 0.4, 0.2, 0.09, 0.58, -0.2)
+    zoro.rotacionar(0, 0.5, 0)
 
 	renderer.render( scene, camera );
 }
@@ -257,9 +272,21 @@ document.onkeydown = function(e) {
     }
 
     if (e.key == 'r') {
-        goku.posicionar(getRandomArbitrary(-1, 0.5) , getRandomArbitrary(1, 2), getRandomArbitrary(-3, -7))
+        goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7))
         goku.model.visible = true
         goku.spotLight.visible = true
+        naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7))
+        naruto.model.visible = true
+        naruto.spotLight.visible = true
+        sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7))
+        sasuke.model.visible = true
+        sasuke.spotLight.visible = true
+        usopp.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7))
+        usopp.model.visible = true
+        usopp.spotLight.visible = true
+        zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7))
+        zoro.model.visible = true
+        zoro.spotLight.visible = true
     }
 
     if (modoCanhao == -1) {
