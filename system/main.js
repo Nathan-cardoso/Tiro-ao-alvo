@@ -67,7 +67,7 @@ class model3D {
 
     holofote(positionX, positionY, positionZ){
         if (this.light) {
-            this.spotLight = new THREE.SpotLight( gerar_cor_hexadecimal(), 1000 );
+            this.spotLight = new THREE.SpotLight( gerar_cor_hexadecimal(), 100 );
             this.spotLight.position.set( positionX, positionY + 2, positionZ);
             this.spotLight.angle = Math.PI / 16;
             this.spotLight.penumbra = 1;
@@ -176,21 +176,22 @@ canhao.carregar()
 const baseCanhao = new model3D('base-canhao', 0.0017, -0.35, 1.06, -0.75, false)
 baseCanhao.carregar()
 
-const goku = new model3D('goku', 1.2, getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7), true)
+const goku = new model3D('goku', 1.2, getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6), true)
 goku.carregar()
-const naruto = new model3D('naruto', 0.1, getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7), true)
+const naruto = new model3D('naruto', 0.1, getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6), true)
 naruto.carregar()
-const sasuke = new model3D('sasuke', 0.3, getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7), true)
+const sasuke = new model3D('sasuke', 0.3, getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6), true)
 sasuke.carregar()
-const usopp = new model3D('usopp', 0.2, getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7), true)
-usopp.carregar()
-const zoro = new model3D('zoro', 0.005, getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7), true)
+const vegeta = new model3D('vegeta', 0.3, getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6), true)
+vegeta.carregar()
+const zoro = new model3D('zoro', 0.005, getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6), true)
 zoro.carregar()
-
 
 camera.position.y = 1.6
 camera.position.z = -0.55
 camera.position.x = -0.36
+const cameraOriginalPosition = camera.position.clone();
+const cameraOriginalRotation = camera.rotation.clone();
 
 const limiteLateral = 0.45;
 const limiteMaxVertical = 0.2;
@@ -247,9 +248,9 @@ function animate() {
     goku.caixaDelimitadora(0.3, 0.7, 0.2, -0.03, 0.5, 0)
     goku.rotacionar(0, -3, 0)
     naruto.caixaDelimitadora(0.3, 0.67, 0.13, -0.03, 0.5, 0)
-    sasuke.caixaDelimitadora(0.24, 0.5, 0.33, 0.1, 0.45, 0.2)
+    sasuke.caixaDelimitadora(0.2, 0.5, 0.33, 0.1, 0.45, 0.2)
     sasuke.rotacionar(0, -2.5, 0)
-    usopp.caixaDelimitadora(0.29, 0.4, 0.38, 0.09, 0.02, 0)
+    vegeta.caixaDelimitadora(0.2, 0.55, 0.15, 0, 0.5, 0)
     zoro.caixaDelimitadora(0.26, 0.4, 0.2, 0.09, 0.58, -0.2)
     zoro.rotacionar(0, 0.5, 0)
 
@@ -259,7 +260,10 @@ function animate() {
 document.onkeydown = function(e) {
 
     if (e.key == 'c') {
-        modoCanhao = -modoCanhao 
+        modoCanhao = -modoCanhao;
+        camera.position.copy(cameraOriginalPosition);
+        camera.rotation.copy(cameraOriginalRotation); 
+        angulo = 0
     }
 
     if (e.key == ' ') {
@@ -272,19 +276,19 @@ document.onkeydown = function(e) {
     }
 
     if (e.key == 'r') {
-        goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7))
+        goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
         goku.model.visible = true
         goku.spotLight.visible = true
-        naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7))
+        naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
         naruto.model.visible = true
         naruto.spotLight.visible = true
-        sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7))
+        sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
         sasuke.model.visible = true
         sasuke.spotLight.visible = true
-        usopp.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7))
-        usopp.model.visible = true
-        usopp.spotLight.visible = true
-        zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -7))
+        vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+        vegeta.model.visible = true
+        vegeta.spotLight.visible = true
+        zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
         zoro.model.visible = true
         zoro.spotLight.visible = true
     }
