@@ -1,8 +1,12 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
 class model3D {
-    constructor(name, scale, positionX, positionY, positionZ) {
+    constructor(name, scale, positionX, positionY, positionZ, light) {
         this.name = name;
         this.scale = scale;
         this.positionX = positionX;
@@ -10,6 +14,8 @@ class model3D {
         this.positionZ = positionZ;
         this.model = null;
         this.caixa = null;
+        this.light = light;
+        this.spotLight = null
     }
 
     carregar() {
@@ -18,12 +24,14 @@ class model3D {
         const positionX = this.positionX;
         const positionY = this.positionY;
         const positionZ = this.positionZ;
+        this.holofote(positionX, positionY, positionZ)
         
         loader.load('models/' + this.name + '.glb', function (gltf) {
             self.model = gltf.scene; 
             self.model.scale.set(scale, scale, scale);
             self.model.position.set(positionX, positionY, positionZ);
             scene.add(self.model);
+
         }, undefined, function (error) {
             console.error(error);
         });
@@ -37,6 +45,29 @@ class model3D {
         }
     }
 
+    holofote(positionX, positionY, positionZ){
+        if (this.light) {
+            let lightHelper
+            this.spotLight = new THREE.SpotLight( 0xffffff, 1000 );
+            this.spotLight.position.set( positionX, positionY + 2, positionZ);
+            this.spotLight.angle = Math.PI / 16;
+            this.spotLight.penumbra = 1;
+            this.spotLight.decay = 2;
+            this.spotLight.distance = 2;
+            this.spotLight.target.position.set(positionX, positionY, positionZ);
+
+            this.spotLight.castShadow = true;
+            this.spotLight.shadow.mapSize.width = 1024;
+            this.spotLight.shadow.mapSize.height = 1024;
+            this.spotLight.shadow.camera.near = 1;
+            this.spotLight.shadow.camera.far = 10;
+            this.spotLight.shadow.focus = 1;
+            scene.add( this.spotLight );
+
+            lightHelper = new THREE.SpotLightHelper( this.spotLight );
+        }
+    }
+
     caixaDelimitadora(largura, altura, profundidade, deslocarX, deslocarY, deslocarZ) {
         if (this.model) {
             const deslocamento = new THREE.Vector3(largura * deslocarX , altura * deslocarY, profundidade * deslocarZ);
@@ -44,16 +75,18 @@ class model3D {
 
             caixaGeometry.translate(deslocamento.x, deslocamento.y, deslocamento.z);
     
-            const caixaMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe : true});
+            const caixaMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe : false});
             const caixaColisao = new THREE.Mesh(caixaGeometry, caixaMaterial);
     
             // Posicione a caixa de colisão onde o modelo 3D estiver posicionado
             caixaColisao.position.copy(this.model.position);
             scene.add(caixaColisao);
             this.caixa = caixaColisao;
+            this.caixa.visible = false
 
             if (this.foiAtingido(largura, altura, profundidade)) {
-                
+                this.spotLight.visible = false
+                this.model.visible = false
             }
         }
     }
@@ -113,15 +146,15 @@ bala.position.x = -0.35
 const light = new THREE.AmbientLight( 0xffffff ); 
 scene.add(light)
 
-const marry = new model3D('going_merry', 1.2, 0, 0, 0)
+const marry = new model3D('going_merry', 1.2, 0, 0, 0, false)
 marry.carregar()
-const canhao = new model3D('canhao', 0.0017, -0.35, 1.06, -0.75)
+const canhao = new model3D('canhao', 0.0017, -0.35, 1.06, -0.75, false)
 canhao.carregar()
-const baseCanhao = new model3D('base-canhao', 0.0017, -0.35, 1.06, -0.75)
+const baseCanhao = new model3D('base-canhao', 0.0017, -0.35, 1.06, -0.75, false)
 baseCanhao.carregar()
 
-//const goku = new model3D('goku', 1.2, -0.3 , 1, -3)
-//goku.carregar()
+const goku = new model3D('goku', 1.2, getRandomArbitrary(-1, 0.5) , getRandomArbitrary(1, 2), getRandomArbitrary(-2, -6), true)
+goku.carregar()
 //const naruto = new model3D('naruto', 0.1, -0.3 , 1, -3)
 //naruto.carregar()
 //const luffy = new model3D('luffy', 4, -0.3 , 1.5, -3)
@@ -186,8 +219,8 @@ function animate() {
     bala.position.z += velocidadeBalaZ
 
     velocidadeBalaY += -0.0005
-    //goku.caixaDelimitadora(0.3, 0.7, 0.2, -0.03, 0.5, 0)
-    //goku.rotacionar(0, -3, 0)
+    goku.caixaDelimitadora(0.3, 0.7, 0.2, -0.03, 0.5, 0)
+    goku.rotacionar(0, -3, 0)
     //naruto.caixaDelimitadora(0.3, 0.67, 0.13, -0.03, 0.5, 0)
     //luffy.caixaDelimitadora(0.4, 0.45, 0.33, 0, 0, 0)
     //luffy.rotacionar(0, 1.7, 0)
