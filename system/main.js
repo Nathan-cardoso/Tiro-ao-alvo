@@ -83,6 +83,8 @@ class model3D {
             this.spotLight.shadow.focus = 1;
             scene.add( this.spotLight );
 
+            this.spotLight.visible = false
+
             this.lightHelper = new THREE.SpotLightHelper( this.spotLight );
         }
     }
@@ -151,6 +153,7 @@ function sceneInit(){
       material[i].side = THREE.BackSide;
     }
     const cube = new THREE.Mesh( geometry, material );
+    cube.rotation.y = -300
     scene.add( cube );
     }
 
@@ -177,7 +180,7 @@ document.body.appendChild( renderer.domElement );
 
 
 const geometry = new THREE.SphereGeometry( 0.03, 10, 10 );
-const material = new THREE.MeshStandardMaterial ( { color: 0xffffff} );
+const material = new THREE.MeshStandardMaterial ( { color: 0x000000} );
 const bala = new THREE.Mesh( geometry, material );
 scene.add( bala );
 bala.position.y = 1.24
@@ -296,19 +299,19 @@ document.onkeydown = function(e) {
     if (e.key == 'r') {
         goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
         goku.model.visible = true
-        goku.spotLight.visible = true
+        //goku.spotLight.visible = true
         naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
         naruto.model.visible = true
-        naruto.spotLight.visible = true
+        //naruto.spotLight.visible = true
         sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
         sasuke.model.visible = true
-        sasuke.spotLight.visible = true
+        //sasuke.spotLight.visible = true
         vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
         vegeta.model.visible = true
-        vegeta.spotLight.visible = true
+        //vegeta.spotLight.visible = true
         zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
         zoro.model.visible = true
-        zoro.spotLight.visible = true
+        //zoro.spotLight.visible = true
     }
 
     if (modoCanhao == -1) {
