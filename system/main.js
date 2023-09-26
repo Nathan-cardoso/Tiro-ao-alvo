@@ -189,6 +189,7 @@ bala.position.x = -0.35
 
 const light = new THREE.AmbientLight( 0xffffff ); 
 scene.add(light)
+const audio = new Audio('sounds/cannon.mp3');
 
 const marry = new model3D('going_merry', 1.2, 0, 0, 0, false)
 marry.carregar()
@@ -294,6 +295,8 @@ document.onkeydown = function(e) {
         velocidadeBalaX = 0.1 * -Math.sin(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
         velocidadeBalaY = 0.1 * (Math.sin(anguloCanhaoVertical) + 0.2);
         velocidadeBalaZ = 0.1 * -Math.cos(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
+        audio.currentTime = 0
+        audio.play()   
     }
 
     if (e.key == 'r') {
