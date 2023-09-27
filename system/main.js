@@ -242,19 +242,14 @@ function animate() {
 
     /*Ajustando a mira do canhão lateralmente
     Cálculo dos ângulos
-    Ângulo x: Math.sin(anguloCanhaoLateral)
-    Ângulo z: Math.cos(anguloCanhaoLateral)
     */
     canhao.rotacionar(anguloCanhaoVertical, anguloCanhaoLateral, 0)
 
     /*Ajustando a mira do canhão verticalmente
     Cálculo dos ângulos
-    Ângulo y: Math.sin(anguloCanhaoVertical)
-    Ângulo z: Math.cos(anguloCanhaoVertical)
     */
 
     //Ajustando base do canhão lateralmente
-    //modelBaseCanhao.rotation.y = anguloCanhaoLateral
     baseCanhao.rotacionar(0, anguloCanhaoLateral, 0)
 
     //Comandos para ser possível se mover pelo mapa
@@ -275,6 +270,24 @@ function animate() {
     vegeta.caixaDelimitadora(0.2, 0.55, 0.15, 0, 0.5, 0)
     zoro.caixaDelimitadora(0.26, 0.4, 0.2, 0.09, 0.58, -0.2)
     zoro.rotacionar(0, 0.5, 0)
+
+    if (!goku.model.visible && !naruto.model.visible && !sasuke.model.visible && !vegeta.model.visible && !zoro.model.visible) {
+        goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+        goku.model.visible = true
+        //goku.spotLight.visible = true
+        naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+        naruto.model.visible = true
+        //naruto.spotLight.visible = true
+        sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+        sasuke.model.visible = true
+        //sasuke.spotLight.visible = true
+        vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+        vegeta.model.visible = true
+        //vegeta.spotLight.visible = true
+        zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+        zoro.model.visible = true
+        //zoro.spotLight.visible = true
+    }
 
 	renderer.render( scene, camera );
 }
