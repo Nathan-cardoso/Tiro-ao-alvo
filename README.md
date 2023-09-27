@@ -30,6 +30,8 @@ Com o modo telespectador ativado o player pode viajar pelo mapa. As configuraç�
 * Para mover a câmera para trás - pressione a tecla arrow down (↓)
 * Para girar a câmera em 360 - pressione a tecla arrow right (➙)
 * Para girar a câmera em sentido contrário - pressione a tecla arrow left (←)
+* Para subir a câmera - Pressione a tecla w
+* Para abaixar a câmera - Pressione a tecla s
 * Para sair/voltar do modo telespectador - pressione a tecla c
 
 ## Screenshot
