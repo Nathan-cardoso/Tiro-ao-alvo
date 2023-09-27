@@ -37,10 +37,6 @@ Com o modo telespectador ativado o player pode viajar pelo mapa. As configura√ß√
 ![game](https://github.com/Nathan-cardoso/Tiro-ao-alvo/assets/100364030/12327dda-1028-4625-9f65-57a33224a249)
 
 
-<div align="center">
-<img src="https://github.com/Nathan-cardoso/Tiro-ao-alvo/issues/3#issue-1914434393" width="700px" />
-</div>
-
 ##  Equipe
 <table align="center">
   <tr>
