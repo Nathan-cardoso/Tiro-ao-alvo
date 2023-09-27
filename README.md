@@ -18,7 +18,7 @@ O jogo proporciona duas experiência ao player, na qual são: **O modo canhão**
 * Para movimentar o canhão para baixa - Pressione  a tecla arrow Up (↑)
 * Para movimentar o canhão para cima - Pressione a tecla arrow down (↓)
 * Para movimentar o canhão para direita - Pressione a tecla arrow right (➙)
-* Para movimentar o canhão para direita - Pressione a tecla arrow left (←)
+* Para movimentar o canhão para esquerda - Pressione a tecla arrow left (←)
 * Para sair/voltar do modo canhão - Pressione a tecla c
 * Para reviver os alvos ou muda-lós de lugar - Pressione a tecla r
 
