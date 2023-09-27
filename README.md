@@ -14,25 +14,25 @@ O jogo proporciona duas experiência ao player, na qual são: **O modo canhão**
 
  No modo canhão, o player controla apenas o canhão do navio, nesse modo está o objetivo central do Game. Suas configurações estão abaixo:
 
-* Para disparar o tiro  - pressione a tecla de espaço.
-* Para movimentar o canhão para baixa - pressione  a tecla arrow Up (↑)
-* Para movimentar o canhão para cima - pressione a tecla arrow down (↓)
-* Para movimentar o canhão para direita - pressione a tecla arrow right (➙)
-* Para movimentar o canhão para direita - pressione a tecla arrow left (←)
-* Para sair/voltar do modo canhão - pressione a tecla c
-* Para reviver os alvos ou muda-lós de lugar - pressione a tecla r
+* Para disparar o tiro  - Pressione a tecla de espaço.
+* Para movimentar o canhão para baixa - Pressione  a tecla arrow Up (↑)
+* Para movimentar o canhão para cima - Pressione a tecla arrow down (↓)
+* Para movimentar o canhão para direita - Pressione a tecla arrow right (➙)
+* Para movimentar o canhão para direita - Pressione a tecla arrow left (←)
+* Para sair/voltar do modo canhão - Pressione a tecla c
+* Para reviver os alvos ou muda-lós de lugar - Pressione a tecla r
 
 **MODO TELESPECTADOR e suas configurações**
 
 Com o modo telespectador ativado o player pode viajar pelo mapa. As configurações seguem abaixo:
 
-* Para mover a câmera para frente - pressione  a tecla arrow Up (↑)
-* Para mover a câmera para trás - pressione a tecla arrow down (↓)
-* Para girar a câmera em 360 - pressione a tecla arrow right (➙)
-* Para girar a câmera em sentido contrário - pressione a tecla arrow left (←)
+* Para mover a câmera para frente - Pressione  a tecla arrow Up (↑)
+* Para mover a câmera para trás - Pressione a tecla arrow down (↓)
+* Para girar a câmera em 360 - Pressione a tecla arrow right (➙)
+* Para girar a câmera em sentido contrário - Pressione a tecla arrow left (←)
 * Para subir a câmera - Pressione a tecla w
 * Para abaixar a câmera - Pressione a tecla s
-* Para sair/voltar do modo telespectador - pressione a tecla c
+* Para sair/voltar do modo telespectador - Pressione a tecla c
 
 ## Screenshot
 
