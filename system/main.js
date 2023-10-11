@@ -12,6 +12,45 @@ return '#' + parseInt((Math.random() * 0xFFFFFF))
 .padStart(6, '0');
 }
 
+function atualizarTimer() {
+
+    if (iniciarTimer == 0) {
+        milissegundos = tempo % 1000; // Calcula os milissegundos
+        segundos = Math.floor(tempo / 1000); // Calcula os segundos
+
+        // Remove o zero no final dos milissegundos
+        const milissegundosString = milissegundos.toString().slice(0, -1);
+
+        // Formata os valores de segundos e milissegundos em uma única string
+        const timerString = `${segundos}s${milissegundosString}`;
+
+        // Atualiza o conteúdo da div com o timer formatado
+        document.getElementById("timer").textContent = timerString + "00";
+    } else if (tempo > 0) {
+        
+        tempo -= 10; // Incrementa 10 milissegundos
+        milissegundos = tempo % 1000; // Calcula os milissegundos
+        segundos = Math.floor(tempo / 1000); // Calcula os segundos
+
+        // Remove o zero no final dos milissegundos
+        const milissegundosString = milissegundos.toString().slice(0, -1);
+
+        // Formata os valores de segundos e milissegundos em uma única string
+        const timerString = `${segundos}s${milissegundosString}`;
+
+        // Atualiza o conteúdo da div com o timer formatado
+        document.getElementById("timer").textContent = timerString;
+
+    } else{
+        document.getElementById("timer").textContent = "0s00";
+        clearInterval(intervalo)
+        modoCanhao = 2
+    }
+}
+
+// Configura o intervalo para chamar a função a cada 10 milissegundos
+const intervalo = setInterval(atualizarTimer, 10);
+
 class model3D {
     constructor(name, scale, positionX, positionY, positionZ, light) {
         this.name = name;
@@ -83,8 +122,6 @@ class model3D {
             this.spotLight.shadow.focus = 1;
             scene.add( this.spotLight );
 
-            this.spotLight.visible = false
-
             this.lightHelper = new THREE.SpotLightHelper( this.spotLight );
         }
     }
@@ -109,9 +146,13 @@ class model3D {
                 this.caixa.position.copy(this.model.position)
             }
 
-            if (this.foiAtingido(largura, altura, profundidade)) {
-                this.spotLight.visible = false
-                this.model.visible = false
+            if (this.model.visible) {
+                if (this.foiAtingido(largura, altura, profundidade)) {
+                    this.spotLight.visible = false
+                    this.model.visible = false
+                    score += 20
+                    console.log(score);
+                }
             }
         }
     }
@@ -128,7 +169,7 @@ class model3D {
             }else if ((bala.position.z + raio) < (this.caixa.position.z - profundidade/2) || (bala.position.z - raio) > (this.caixa.position.z + profundidade/2)) {
                 return false
             } else{
-                    
+
                 console.log("colisão")
                 return true
             }
@@ -170,6 +211,12 @@ let velocidadeBalaZ = 0;
 let modoCanhao = 1;
 let velocidadeCanhaoLateral = 0
 let velocidadeCanhaoVertical = 0
+let score = 0;
+let tempo = 30000;
+let segundos = 0;
+let milissegundos = 0;
+let iniciarTimer = 0;
+const divScore = document.getElementById("info")
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -259,7 +306,7 @@ function animate() {
 
     bala.position.x += velocidadeBalaX
     bala.position.y += velocidadeBalaY
-    bala.position.z += velocidadeBalaZ
+    bala.position.z += velocidadeBalaZ 
 
     velocidadeBalaY += -0.0005
     goku.caixaDelimitadora(0.3, 0.7, 0.2, -0.03, 0.5, 0)
@@ -271,23 +318,28 @@ function animate() {
     zoro.caixaDelimitadora(0.26, 0.4, 0.2, 0.09, 0.58, -0.2)
     zoro.rotacionar(0, 0.5, 0)
 
-    if (!goku.model.visible && !naruto.model.visible && !sasuke.model.visible && !vegeta.model.visible && !zoro.model.visible) {
-        goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
-        goku.model.visible = true
-        //goku.spotLight.visible = true
-        naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
-        naruto.model.visible = true
-        //naruto.spotLight.visible = true
-        sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
-        sasuke.model.visible = true
-        //sasuke.spotLight.visible = true
-        vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
-        vegeta.model.visible = true
-        //vegeta.spotLight.visible = true
-        zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
-        zoro.model.visible = true
-        //zoro.spotLight.visible = true
+    if (goku.model && naruto.model && sasuke.model && vegeta.model && zoro.model) {
+        
+        if (!goku.model.visible && !naruto.model.visible && !sasuke.model.visible && !vegeta.model.visible && !zoro.model.visible) {
+            goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            goku.model.visible = true
+            goku.spotLight.visible = true
+            naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            naruto.model.visible = true
+            naruto.spotLight.visible = true
+            sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            sasuke.model.visible = true
+            sasuke.spotLight.visible = true
+            vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            vegeta.model.visible = true
+            vegeta.spotLight.visible = true
+            zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            zoro.model.visible = true
+            zoro.spotLight.visible = true
+        }
     }
+    
+    divScore.innerText = "SCORE: " + score
 
 	renderer.render( scene, camera );
 }
@@ -299,35 +351,6 @@ document.onkeydown = function(e) {
         camera.position.copy(cameraOriginalPosition);
         camera.rotation.copy(cameraOriginalRotation); 
         angulo = 0
-    }
-
-    if (e.key == ' ') {
-        bala.position.y = 1.24
-        bala.position.z = -0.77
-        bala.position.x = -0.35
-        velocidadeBalaX = 0.1 * -Math.sin(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
-        velocidadeBalaY = 0.1 * (Math.sin(anguloCanhaoVertical) + 0.2);
-        velocidadeBalaZ = 0.1 * -Math.cos(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
-        audio.currentTime = 0
-        audio.play()   
-    }
-
-    if (e.key == 'r') {
-        goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
-        goku.model.visible = true
-        //goku.spotLight.visible = true
-        naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
-        naruto.model.visible = true
-        //naruto.spotLight.visible = true
-        sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
-        sasuke.model.visible = true
-        //sasuke.spotLight.visible = true
-        vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
-        vegeta.model.visible = true
-        //vegeta.spotLight.visible = true
-        zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
-        zoro.model.visible = true
-        //zoro.spotLight.visible = true
     }
 
     if (modoCanhao == -1) {
@@ -354,7 +377,7 @@ document.onkeydown = function(e) {
         if (e.key == 's') {
             velocidadeVertical = -0.05
         }
-    } else{
+    } else if(modoCanhao == 1){
         if(e.key == "ArrowUp") {
             velocidadeCanhaoVertical = -0.01
         }
@@ -369,6 +392,36 @@ document.onkeydown = function(e) {
     
         if(e.key == "ArrowRight") {
             velocidadeCanhaoLateral = -0.01;
+        }
+
+        if (e.key == ' ') {
+            iniciarTimer = 1
+            bala.position.y = 1.24
+            bala.position.z = -0.77
+            bala.position.x = -0.35
+            velocidadeBalaX = 0.1 * -Math.sin(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
+            velocidadeBalaY = 0.1 * (Math.sin(anguloCanhaoVertical) + 0.2);
+            velocidadeBalaZ = 0.1 * -Math.cos(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
+            audio.currentTime = 0
+            audio.play()   
+        }
+
+        if (e.key == 'r') {
+            goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            goku.model.visible = true
+            goku.spotLight.visible = true
+            naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            naruto.model.visible = true
+            naruto.spotLight.visible = true
+            sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            sasuke.model.visible = true
+            sasuke.spotLight.visible = true
+            vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            vegeta.model.visible = true
+            vegeta.spotLight.visible = true
+            zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            zoro.model.visible = true
+            zoro.spotLight.visible = true
         }
     }
 
