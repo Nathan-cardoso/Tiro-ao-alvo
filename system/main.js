@@ -43,8 +43,9 @@ function atualizarTimer() {
 
     } else{
         document.getElementById("timer").textContent = "0s00";
-        clearInterval(intervalo)
         modoCanhao = 2
+
+        clearInterval(intervalo)
     }
 }
 
@@ -212,7 +213,7 @@ let modoCanhao = 1;
 let velocidadeCanhaoLateral = 0
 let velocidadeCanhaoVertical = 0
 let score = 0;
-let tempo = 30000;
+let tempo = 1000;
 let segundos = 0;
 let milissegundos = 0;
 let iniciarTimer = 0;
