@@ -26,6 +26,7 @@ function atualizarTimer() {
 
         // Atualiza o conteúdo da div com o timer formatado
         document.getElementById("timer").textContent = timerString + "00";
+        console.log(tempo);
     } else if (tempo > 0) {
         
         tempo -= 10; // Incrementa 10 milissegundos
@@ -45,12 +46,16 @@ function atualizarTimer() {
         document.getElementById("timer").textContent = "0s00";
         modoCanhao = 2
 
+        scoreContainer.style.display = "block"
+        image.style.display = "block"
+
         clearInterval(intervalo)
+
     }
 }
 
 // Configura o intervalo para chamar a função a cada 10 milissegundos
-const intervalo = setInterval(atualizarTimer, 10);
+let intervalo = setInterval(atualizarTimer, 10);
 
 class model3D {
     constructor(name, scale, positionX, positionY, positionZ, light) {
@@ -213,11 +218,15 @@ let modoCanhao = 1;
 let velocidadeCanhaoLateral = 0
 let velocidadeCanhaoVertical = 0
 let score = 0;
-let tempo = 1000;
+let tempo = 30000;
 let segundos = 0;
 let milissegundos = 0;
 let iniciarTimer = 0;
-const divScore = document.getElementById("info")
+const Score = document.getElementById("score")
+const finalScore = document.getElementsByClassName("score")[0]
+const scoreContainer = document.getElementById("score-container")
+const image = document.getElementById("background-image")
+const botao = document.getElementById("reset")
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -340,7 +349,8 @@ function animate() {
         }
     }
     
-    divScore.innerText = "SCORE: " + score
+    Score.innerText = "SCORE: " + score
+    finalScore.innerText = score
 
 	renderer.render( scene, camera );
 }
@@ -457,6 +467,31 @@ document.onkeyup = function(e) {
         velocidadeVertical = 0
     }
 }
+
+botao.addEventListener("click", function () {
+    modoCanhao = 1
+    scoreContainer.style.display = "none"
+    image.style.display = "none"
+    score = 0
+    tempo = 30000
+    iniciarTimer = 0
+    intervalo = setInterval(atualizarTimer, 10);
+    goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+    goku.model.visible = true
+    goku.spotLight.visible = true
+    naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+    naruto.model.visible = true
+    naruto.spotLight.visible = true
+    sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+    sasuke.model.visible = true
+    sasuke.spotLight.visible = true
+    vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+    vegeta.model.visible = true
+    vegeta.spotLight.visible = true
+    zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+    zoro.model.visible = true
+    zoro.spotLight.visible = true
+})
 
 sceneInit();
 animate();
