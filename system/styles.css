@@ -39,6 +39,10 @@ body {
     display: none;
 }
 
+#caveira{
+    width: 25%;
+}
+
 #score-container {  
     padding: 20px;
     text-align: center;
@@ -49,6 +53,7 @@ body {
 
 h1 {
     font-size: 36px;
+    margin: 0px;
 }
 
 p {
