@@ -26,7 +26,6 @@ function atualizarTimer() {
 
         // Atualiza o conteúdo da div com o timer formatado
         document.getElementById("timer").textContent = timerString + "00";
-        console.log(tempo);
     } else if (tempo > 0) {
         
         tempo -= 10; // Incrementa 10 milissegundos
@@ -234,7 +233,6 @@ const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.inner
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
-
 
 const geometry = new THREE.SphereGeometry( 0.03, 10, 10 );
 const material = new THREE.MeshStandardMaterial ( { color: 0x000000} );
