@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
@@ -203,7 +202,6 @@ function sceneInit(){
     const cube = new THREE.Mesh( geometry, material );
     cube.rotation.y = -300
     scene.add( cube );
-
     }
 
 const loader = new GLTFLoader();
@@ -236,29 +234,6 @@ const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.inner
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
-
-const controls = new PointerLockControls( camera, document.body );
-
-const mouseRotation = { x: 0, y: 0 };
-const sensitivity = 0.002; // Ajuste a sensibilidade de rotação
-
-// Adicione um evento para capturar o movimento do mouse
-document.addEventListener('mousemove', (event) => {
-    if (controls.isLocked) {
-        const movementX = event.movementX || event.mozMovementX || 0;
-        const movementY = event.movementY || event.mozMovementY || 0;
-
-        // Atualize a rotação da câmera com base no movimento do mouse
-        mouseRotation.x -= movementX * sensitivity;
-        mouseRotation.y -= movementY * sensitivity;
-
-        // Limitar a rotação vertical para evitar olhar para cima/para baixo demais
-        mouseRotation.y = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, mouseRotation.y));
-
-        // Aplicar a rotação à câmera
-        camera.rotation.set(mouseRotation.y, mouseRotation.x, 0);
-    }
-})
 
 
 const geometry = new THREE.SphereGeometry( 0.03, 10, 10 );
@@ -373,7 +348,6 @@ function animate() {
             zoro.spotLight.visible = true
         }
     }
-
     
     Score.innerText = "SCORE: " + score
     finalScore.innerText = score
@@ -391,8 +365,6 @@ document.onkeydown = function(e) {
     }
 
     if (modoCanhao == -1) {
-
-        controls.lock();
         if(e.key == "ArrowUp") {    
             velocidade = 0.05
         }
@@ -417,9 +389,6 @@ document.onkeydown = function(e) {
             velocidadeVertical = -0.05
         }
     } else if(modoCanhao == 1){
-
-        controls.unlock();
-
         if(e.key == "ArrowUp") {
             velocidadeCanhaoVertical = -0.01
         }
