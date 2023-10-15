@@ -26,8 +26,7 @@ function atualizarTimer() {
 
         // Atualiza o conteúdo da div com o timer formatado
         document.getElementById("timer").textContent = timerString + "00";
-
-        theme.pause();
+      
     } else if (tempo > 0) {
         
         tempo -= 10; // Incrementa 10 milissegundos
@@ -50,6 +49,8 @@ function atualizarTimer() {
         scoreContainer.style.display = "block"
         image.style.display = "block"
         document.body.style.cursor = "auto"
+
+        theme.stop();
 
         clearInterval(intervalo)
 
@@ -255,6 +256,14 @@ const listener = new THREE.AudioListener();
 
 const theme = new THREE.Audio( listener );
 
+const audioLoader = new THREE.AudioLoader();
+
+audioLoader.load( 'sounds/theme.mp3', function( buffer ) {
+    theme.setBuffer( buffer );
+    theme.setLoop( false );
+    theme.setVolume( 0.3 );
+});
+
 
 const marry = new model3D('going_merry', 1.2, 0, 0, 0, false)
 marry.carregar()
@@ -423,15 +432,7 @@ document.onkeydown = function(e) {
             velocidadeBalaZ = 0.1 * -Math.cos(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
             audio.currentTime = 0
             audio.play()
-
-            const audioLoader = new THREE.AudioLoader();
-            audioLoader.load( 'sounds/theme.mp3', function( buffer ) {
-                theme.setBuffer( buffer );
-                theme.setLoop( false );
-                theme.setVolume( 0.3 );
-                theme.play();
-            });
-
+            theme.play()
         }
 
         if (e.key == 'r') {
@@ -511,6 +512,7 @@ botao.addEventListener("click", (event) => {
     zoro.model.visible = true
     zoro.spotLight.visible = true
     document.body.style.cursor = "none"
+    theme.stop();
 })
 
 document.addEventListener('mousemove', (event) =>{
@@ -534,7 +536,9 @@ document.addEventListener("click", function (){
         velocidadeBalaY = 0.1 * (Math.sin(anguloCanhaoVertical) + 0.2);
         velocidadeBalaZ = 0.1 * -Math.cos(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
         audio.currentTime = 0
-        audio.play()   
+        audio.play()
+        theme.play();   
+        
     }
 })
 
