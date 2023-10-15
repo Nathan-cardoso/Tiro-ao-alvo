@@ -10,6 +10,7 @@ body {
     text-align: center;
     position: relative;
     font-size: 20px;
+    cursor: none;
  }
 
 #score {
@@ -19,6 +20,7 @@ body {
     width: auto;
     text-align: right;
     z-index: 100;
+    user-select: none;
 }
 
 #timer {
@@ -26,6 +28,7 @@ body {
     top: 10px;
     text-align: center;
     z-index: 100;
+    user-select: none;
 }
 
 #background-image {
