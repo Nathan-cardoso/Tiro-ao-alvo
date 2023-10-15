@@ -502,8 +502,6 @@ document.addEventListener('mousemove', (event) =>{
         
         anguloCanhaoLateral = -event.offsetX/1000 + 1
         anguloCanhaoVertical = -event.offsetY/1000 + 0.65
-        console.log(event.offsetY/1000);
-        console.log(event.offsetX/1000);
     }
 })
 
