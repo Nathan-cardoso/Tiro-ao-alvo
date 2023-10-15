@@ -47,6 +47,7 @@ function atualizarTimer() {
 
         scoreContainer.style.display = "block"
         image.style.display = "block"
+        document.body.style.cursor = "auto"
 
         clearInterval(intervalo)
 
@@ -226,6 +227,7 @@ const finalScore = document.getElementsByClassName("score")[0]
 const scoreContainer = document.getElementById("score-container")
 const image = document.getElementById("background-image")
 const botao = document.getElementById("reset")
+document.body.style.cursor = "none"
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -416,19 +418,19 @@ document.onkeydown = function(e) {
         }
 
         if (e.key == 'r') {
-            goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
             goku.model.visible = true
             goku.spotLight.visible = true
-            naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
             naruto.model.visible = true
             naruto.spotLight.visible = true
-            sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
             sasuke.model.visible = true
             sasuke.spotLight.visible = true
-            vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
             vegeta.model.visible = true
             vegeta.spotLight.visible = true
-            zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
             zoro.model.visible = true
             zoro.spotLight.visible = true
         }
@@ -466,7 +468,9 @@ document.onkeyup = function(e) {
     }
 }
 
-botao.addEventListener("click", function () {
+botao.addEventListener("click", (event) => {
+    event.stopPropagation();
+
     modoCanhao = 1
     scoreContainer.style.display = "none"
     image.style.display = "none"
@@ -474,22 +478,51 @@ botao.addEventListener("click", function () {
     tempo = 30000
     iniciarTimer = 0
     intervalo = setInterval(atualizarTimer, 10);
-    goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+    goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
     goku.model.visible = true
     goku.spotLight.visible = true
-    naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+    naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
     naruto.model.visible = true
     naruto.spotLight.visible = true
-    sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+    sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
     sasuke.model.visible = true
     sasuke.spotLight.visible = true
-    vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+    vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
     vegeta.model.visible = true
     vegeta.spotLight.visible = true
-    zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+    zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
     zoro.model.visible = true
     zoro.spotLight.visible = true
+    document.body.style.cursor = "none"
 })
+
+document.addEventListener('mousemove', (event) =>{
+    if (scoreContainer.style.display != "block" &&
+    image.style.display != "block") {
+        
+        anguloCanhaoLateral = -event.offsetX/1000 + 1
+        anguloCanhaoVertical = -event.offsetY/1000 + 0.65
+        console.log(event.offsetY/1000);
+        console.log(event.offsetX/1000);
+    }
+})
+
+document.addEventListener("click", function (){
+    if (scoreContainer.style.display != "block" &&
+    image.style.display != "block") {
+        
+        iniciarTimer = 1
+        bala.position.y = 1.24
+        bala.position.z = -0.77
+        bala.position.x = -0.35
+        velocidadeBalaX = 0.1 * -Math.sin(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
+        velocidadeBalaY = 0.1 * (Math.sin(anguloCanhaoVertical) + 0.2);
+        velocidadeBalaZ = 0.1 * -Math.cos(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
+        audio.currentTime = 0
+        audio.play()   
+    }
+})
+
 
 sceneInit();
 animate();
