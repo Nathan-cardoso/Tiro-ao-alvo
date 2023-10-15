@@ -203,7 +203,6 @@ function sceneInit(){
     const cube = new THREE.Mesh( geometry, material );
     cube.rotation.y = -300
     scene.add( cube );
-
     }
 
 const loader = new GLTFLoader();
@@ -237,28 +236,39 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-const controls = new PointerLockControls( camera, document.body );
+let controls = new PointerLockControls(camera, renderer.domElement);
+let clock = new THREE.Clock();
 
-const mouseRotation = { x: 0, y: 0 };
-const sensitivity = 0.002; // Ajuste a sensibilidade de rotação
+let keyboard = [];
 
-// Adicione um evento para capturar o movimento do mouse
-document.addEventListener('mousemove', (event) => {
-    if (controls.isLocked) {
-        const movementX = event.movementX || event.mozMovementX || 0;
-        const movementY = event.movementY || event.mozMovementY || 0;
+addEventListener("keydown", (e) =>{
+    keyboard[e.key] = true;
+});
 
-        // Atualize a rotação da câmera com base no movimento do mouse
-        mouseRotation.x -= movementX * sensitivity;
-        mouseRotation.y -= movementY * sensitivity;
+addEventListener("keyup", (e) =>{
+    keyboard[e.key] = false;
+});
 
-        // Limitar a rotação vertical para evitar olhar para cima/para baixo demais
-        mouseRotation.y = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, mouseRotation.y));
+function processoDeControle(delta){
 
-        // Aplicar a rotação à câmera
-        camera.rotation.set(mouseRotation.y, mouseRotation.x, 0);
+    velocidade = 0.5;
+    let velocidadeAtual = velocidade + delta;
+
+    if(keyboard["w"]){
+        controls.moveForward(velocidadeAtual);
     }
-})
+    if(keyboard["s"]){
+        controls.moveForward(-velocidadeAtual);
+    }
+    if(keyboard["a"]){
+        controls.moveRigth(-velocidadeAtual);
+    }
+    if(keyboard["d"]){
+        controls.moveRigth(velocidadeAtual);
+    }
+
+}
+
 
 
 const geometry = new THREE.SphereGeometry( 0.03, 10, 10 );
@@ -304,6 +314,8 @@ const limiteMinVertical = 0;
 function animate() {
 	requestAnimationFrame( animate );
 
+
+
     //Ângulos que são utilizados
     angulo += velocidadeAngular
     anguloCanhaoLateral += velocidadeCanhaoLateral
@@ -335,6 +347,15 @@ function animate() {
     baseCanhao.rotacionar(0, anguloCanhaoLateral, 0)
 
     //Comandos para ser possível se mover pelo mapa
+
+    if(controls.isLock  == true){
+        let delta = clock.getDelta();
+
+        controls.moveForward(delta)
+        controls.moveRight(delta)
+
+    }
+    
     camera.position.z += velocidade * -Math.cos(angulo)
     camera.position.x += velocidade * -Math.sin(angulo)
     camera.position.y += velocidadeVertical
@@ -374,7 +395,8 @@ function animate() {
         }
     }
 
-    
+
+
     Score.innerText = "SCORE: " + score
     finalScore.innerText = score
 
@@ -393,6 +415,7 @@ document.onkeydown = function(e) {
     if (modoCanhao == -1) {
 
         controls.lock();
+
         if(e.key == "ArrowUp") {    
             velocidade = 0.05
         }
@@ -415,7 +438,7 @@ document.onkeydown = function(e) {
     
         if (e.key == 's') {
             velocidadeVertical = -0.05
-        }
+        } 
     } else if(modoCanhao == 1){
 
         controls.unlock();
