@@ -26,6 +26,8 @@ function atualizarTimer() {
 
         // Atualiza o conteúdo da div com o timer formatado
         document.getElementById("timer").textContent = timerString + "00";
+
+        theme.pause();
     } else if (tempo > 0) {
         
         tempo -= 10; // Incrementa 10 milissegundos
@@ -248,6 +250,12 @@ const light = new THREE.AmbientLight( 0xffffff );
 scene.add(light)
 const audio = new Audio('sounds/cannon.mp3');
 
+const listener = new THREE.AudioListener();
+
+
+const theme = new THREE.Audio( listener );
+
+
 const marry = new model3D('going_merry', 1.2, 0, 0, 0, false)
 marry.carregar()
 const canhao = new model3D('canhao', 0.0017, -0.35, 1.06, -0.75, false)
@@ -414,7 +422,16 @@ document.onkeydown = function(e) {
             velocidadeBalaY = 0.1 * (Math.sin(anguloCanhaoVertical) + 0.2);
             velocidadeBalaZ = 0.1 * -Math.cos(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
             audio.currentTime = 0
-            audio.play()   
+            audio.play()
+
+            const audioLoader = new THREE.AudioLoader();
+            audioLoader.load( 'sounds/theme.mp3', function( buffer ) {
+                theme.setBuffer( buffer );
+                theme.setLoop( false );
+                theme.setVolume( 0.3 );
+                theme.play();
+            });
+
         }
 
         if (e.key == 'r') {
