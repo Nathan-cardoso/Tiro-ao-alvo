@@ -29,7 +29,7 @@ function atualizarTimer() {
       
     } else if (tempo > 0) {
         
-        tempo -= 10; // Incrementa 10 milissegundos
+        tempo -= 10; // Decrementa 10 milissegundos
         milissegundos = tempo % 1000; // Calcula os milissegundos
         segundos = Math.floor(tempo / 1000); // Calcula os segundos
 
