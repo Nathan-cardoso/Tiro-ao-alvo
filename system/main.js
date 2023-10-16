@@ -496,19 +496,19 @@ botao.addEventListener("click", (event) => {
     tempo = 30000
     iniciarTimer = 0
     intervalo = setInterval(atualizarTimer, 10);
-    goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
+    goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.5, 2), getRandomArbitrary(-3, -6))
     goku.model.visible = true
     goku.spotLight.visible = true
-    naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
+    naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.5, 2), getRandomArbitrary(-3, -6))
     naruto.model.visible = true
     naruto.spotLight.visible = true
-    sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
+    sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.5, 2), getRandomArbitrary(-3, -6))
     sasuke.model.visible = true
     sasuke.spotLight.visible = true
-    vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
+    vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.5, 2), getRandomArbitrary(-3, -6))
     vegeta.model.visible = true
     vegeta.spotLight.visible = true
-    zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
+    zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.5, 2), getRandomArbitrary(-3, -6))
     zoro.model.visible = true
     zoro.spotLight.visible = true
     document.body.style.cursor = "none"
