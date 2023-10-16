@@ -348,19 +348,19 @@ function animate() {
     if (goku.model && naruto.model && sasuke.model && vegeta.model && zoro.model) {
         
         if (!goku.model.visible && !naruto.model.visible && !sasuke.model.visible && !vegeta.model.visible && !zoro.model.visible) {
-            goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.5, 2), getRandomArbitrary(-3, -6))
             goku.model.visible = true
             goku.spotLight.visible = true
-            naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.5, 2), getRandomArbitrary(-3, -6))
             naruto.model.visible = true
             naruto.spotLight.visible = true
-            sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.5, 2), getRandomArbitrary(-3, -6))
             sasuke.model.visible = true
             sasuke.spotLight.visible = true
-            vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.5, 2), getRandomArbitrary(-3, -6))
             vegeta.model.visible = true
             vegeta.spotLight.visible = true
-            zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.2, 2), getRandomArbitrary(-3, -6))
+            zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.5, 2), getRandomArbitrary(-3, -6))
             zoro.model.visible = true
             zoro.spotLight.visible = true
         }
@@ -427,28 +427,28 @@ document.onkeydown = function(e) {
             bala.position.y = 1.24
             bala.position.z = -0.77
             bala.position.x = -0.35
-            velocidadeBalaX = 0.1 * -Math.sin(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
-            velocidadeBalaY = 0.1 * (Math.sin(anguloCanhaoVertical) + 0.2);
-            velocidadeBalaZ = 0.1 * -Math.cos(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
+            velocidadeBalaX = 0.12 * -Math.sin(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
+            velocidadeBalaY = 0.12 * (Math.sin(anguloCanhaoVertical) + 0.2);
+            velocidadeBalaZ = 0.12 * -Math.cos(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
             audio.currentTime = 0
             audio.play()
             theme.play()
         }
 
         if (e.key == 'r') {
-            goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
+            goku.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.5, 2), getRandomArbitrary(-3, -6))
             goku.model.visible = true
             goku.spotLight.visible = true
-            naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
+            naruto.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.5, 2), getRandomArbitrary(-3, -6))
             naruto.model.visible = true
             naruto.spotLight.visible = true
-            sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
+            sasuke.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.5, 2), getRandomArbitrary(-3, -6))
             sasuke.model.visible = true
             sasuke.spotLight.visible = true
-            vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
+            vegeta.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.5, 2), getRandomArbitrary(-3, -6))
             vegeta.model.visible = true
             vegeta.spotLight.visible = true
-            zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.3, 2), getRandomArbitrary(-3, -6))
+            zoro.posicionar(getRandomArbitrary(-1, 0.8) , getRandomArbitrary(1.5, 2), getRandomArbitrary(-3, -6))
             zoro.model.visible = true
             zoro.spotLight.visible = true
         }
@@ -520,7 +520,7 @@ document.addEventListener('mousemove', (event) =>{
     image.style.display != "block") {
         
         anguloCanhaoLateral = -event.offsetX/1000 + 1
-        anguloCanhaoVertical = -event.offsetY/1000 + 0.65
+        anguloCanhaoVertical = -event.offsetY/1000 + 0.5
     }
 })
 
@@ -532,9 +532,9 @@ document.addEventListener("click", function (){
         bala.position.y = 1.24
         bala.position.z = -0.77
         bala.position.x = -0.35
-        velocidadeBalaX = 0.1 * -Math.sin(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
-        velocidadeBalaY = 0.1 * (Math.sin(anguloCanhaoVertical) + 0.2);
-        velocidadeBalaZ = 0.1 * -Math.cos(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
+        velocidadeBalaX = 0.12 * -Math.sin(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
+        velocidadeBalaY = 0.12 * (Math.sin(anguloCanhaoVertical) + 0.2);
+        velocidadeBalaZ = 0.12 * -Math.cos(anguloCanhaoLateral) * Math.cos(anguloCanhaoVertical);
         audio.currentTime = 0
         audio.play()
         theme.play();   
