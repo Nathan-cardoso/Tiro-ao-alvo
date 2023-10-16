@@ -250,9 +250,9 @@ bala.position.x = -0.35
 const light = new THREE.AmbientLight( 0xffffff ); 
 scene.add(light)
 const audio = new Audio('sounds/cannon.mp3');
+audio.volume = 0.5
 
 const listener = new THREE.AudioListener();
-audio.volume = 0.5
 
 const theme = new THREE.Audio( listener );
 
