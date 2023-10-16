@@ -252,7 +252,7 @@ scene.add(light)
 const audio = new Audio('sounds/cannon.mp3');
 
 const listener = new THREE.AudioListener();
-
+audio.volume = 0.5
 
 const theme = new THREE.Audio( listener );
 
