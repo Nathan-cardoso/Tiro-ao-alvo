@@ -1,6 +1,6 @@
 # Tiro ao alvo com Merry 
 
-<a href="https://nathan-cardoso.github.io/Tiro-ao-alvo/system/"> ![merry](https://github.com/Nathan-cardoso/Tiro-ao-alvo/assets/100364030/a93740df-c1af-4fb8-a5ab-23dc5ccf8d22) </a>
+![merry](https://github.com/Nathan-cardoso/Tiro-ao-alvo/assets/100364030/a93740df-c1af-4fb8-a5ab-23dc5ccf8d22)
 
 ## O que é o projeto? 
 
@@ -8,7 +8,8 @@ O projeto consiste em simular o clássico jogo de Tiro ao Alvo, porém, adaptand
 
 **Como Jogar o Tiro ao Alvo com Merry?**
 
-O jogo proporciona duas experiência ao player, na qual são: **O modo canhão** e **modo telespectador**
+O jogo proporciona duas experiência ao player, na qual são: **O modo canhão** e **modo telespectador**.
+Acesse este link para jogar: https://nathan-cardoso.github.io/Tiro-ao-alvo/system/
 
 **MODO CANHÃO e suas configurações**
 
