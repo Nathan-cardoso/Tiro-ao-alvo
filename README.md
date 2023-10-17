@@ -1,7 +1,7 @@
 # Tiro ao alvo com Merry 
 
 <a href="https://nathan-cardoso.github.io/Tiro-ao-alvo/system/">
-    <img src="https://github.com/Nathan-cardoso/Tiro-ao-alvo/assets/100364030/a93740df-c1af-4fb8-a5ab-23dc5ccf8d22" alt="Imagem de exemplo">
+    ![marry](https://github.com/Nathan-cardoso/Tiro-ao-alvo/assets/100364030/a93740df-c1af-4fb8-a5ab-23dc5ccf8d22)
 </a>
 
 ## O que é o projeto? 
