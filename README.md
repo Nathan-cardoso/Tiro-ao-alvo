@@ -9,6 +9,7 @@ O projeto consiste em simular o clássico jogo de Tiro ao Alvo, porém, adaptand
 **Como Jogar o Tiro ao Alvo com Merry?**
 
 O jogo proporciona duas experiência ao player, na qual são: **O modo canhão** e **modo telespectador**.
+
 Acesse este link para jogar: https://nathan-cardoso.github.io/Tiro-ao-alvo/system/
 
 **MODO CANHÃO e suas configurações**
