@@ -366,7 +366,7 @@ function animate() {
         }
     }
     
-    Score.innerText = "SCORE: " + score
+    Score.innerText = "Pontuação: " + score
     finalScore.innerText = score
 
 	renderer.render( scene, camera );
